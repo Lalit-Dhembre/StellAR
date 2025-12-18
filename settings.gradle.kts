@@ -10,6 +10,9 @@ pluginManagement {
         mavenCentral()
         gradlePluginPortal()
         maven(url = "https://jitpack.com")
+        flatDir {
+            dirs("libs")
+        }
     }
 }
 dependencyResolutionManagement {
@@ -18,6 +21,9 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven(url = "https://jitpack.com")
+        flatDir {
+            dirs("libs")
+        }
     }
 }
 

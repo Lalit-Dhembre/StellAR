@@ -1,13 +1,24 @@
 package com.cosmic_struck.stellar.common.navigation
 
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.navigation.NavOptions
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.cosmic_struck.stellar.arlabScreen.presentation.ARLabScreen
+import com.cosmic_struck.stellar.R
 import com.cosmic_struck.stellar.common.components.BackgroundScaffold
 import com.cosmic_struck.stellar.common.components.BottomAppBar
 import com.cosmic_struck.stellar.homeScreen.presentation.HomeScreen
@@ -17,7 +28,9 @@ import com.cosmic_struck.stellar.modelScreen.modelViewerFeature.presentation.Mod
 import com.cosmic_struck.stellar.modelScreen.modelViewerFeature.presentation.components.ModelViewerTopAppBar
 import com.cosmic_struck.stellar.scanTextFeature.presentation.ScanTextScreen
 import com.cosmic_struck.stellar.scanTextResultFeature.presentation.ScanTextResultScreen
+import com.cosmic_struck.stellar.stellar.arlab.presentation.ARLabScreen
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainNavGraph(
     navHostController: NavHostController,
@@ -45,8 +58,8 @@ fun MainNavGraph(
                     bottomBar = { BottomAppBar(navHostController) }
                 ) {
                     ModelScreen(
-                        navigateToModelViewer = {it1->
-                            navHostController.navigate(Screens.ModelViewerScreen.route+"/$it1")
+                        navigateToModelViewer = {it1,it2->
+                            navHostController.navigate(Screens.ModelViewerScreen.route+"/$it1/$it2")
                         },
                         modifier = it)
                 }
@@ -61,8 +74,10 @@ fun MainNavGraph(
             }
             composable(Screens.ScanTextScreen.route){
                 ScanTextScreen(
-                    scanResult = {
-                        navHostController.navigate(Screens.ScanTextResultScreen.route)
+                    navigateToResults = {it->
+                        navHostController.navigate(
+                            Screens.ScanTextResultScreen.route + "/$it",
+                        )
                     },
                     navigateBack = {
                         navHostController.popBackStack()
@@ -70,17 +85,48 @@ fun MainNavGraph(
                 )
             }
 
-            composable(Screens.ScanTextResultScreen.route){
-                ScanTextResultScreen(
-                    navigateBack = {
-                        navHostController.popBackStack()
-                    }
-                )
+            composable(Screens.ScanTextResultScreen.route + "/{detections}"){
+                BackgroundScaffold(
+                    topBar = {
+                        TopAppBar(
+                            title = {
+                                Text(
+                                    "Scan Result",
+                                    fontSize = 18.sp,
+                                    fontWeight = FontWeight.Medium,
+                                    color = Color.White
+                                )
+                            },
+                            navigationIcon = {
+                                IconButton(onClick = {
+                                    navHostController.popBackStack()
+                                }) {
+                                    Icon(
+                                        painterResource(R.drawable.back),
+                                        contentDescription = "Back",
+                                        tint = Color.White
+                                    )
+                                }
+                            },
+                            colors = TopAppBarDefaults.topAppBarColors(
+                                containerColor = Color(0xFF1A2B4D)
+                            )
+                        )
+                    },
+                    navController = navHostController
+                ) {
+                    ScanTextResultScreen(
+                        navigateBack = {
+                            navHostController.popBackStack()
+                        }
+                    )
+                }
             }
             composable(
-                Screens.ModelViewerScreen.route+"/{name}",
+                Screens.ModelViewerScreen.route+"/{name}/{id}",
                 arguments = listOf(
                     navArgument("name",{type = NavType.StringType}),
+                    navArgument("id",{type= NavType.StringType})
                 )){backStack->
                 BackgroundScaffold(
                     topBar = {

@@ -1,3 +1,4 @@
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -21,6 +22,10 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        ndk {
+            //noinspection ChromeOsAbiSupport
+            abiFilters += listOf("arm64-v8a")
+        }
     }
 
     buildTypes {
@@ -41,6 +46,7 @@ android {
     }
     buildFeatures {
         compose = true
+        prefab = true
     }
 }
 
@@ -48,6 +54,10 @@ dependencies {
     //Dagger Hilt
     implementation("com.google.dagger:hilt-android:2.57.2")
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material)
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.constraintlayout)
     ksp("com.google.dagger:hilt-android-compiler:2.57.2")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
@@ -120,7 +130,8 @@ dependencies {
 
     implementation("dev.chrisbanes.haze:haze-jetpack-compose:0.4.1")
     implementation("io.github.sceneview:sceneview:2.3.1")
-    implementation("io.github.sceneview:arsceneview:2.3.1")
+
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

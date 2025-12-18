@@ -5,10 +5,11 @@ import com.cosmic_struck.stellar.stellar.models.domain.model.Planet
 data class PlanetDTO(
     val model_id: String,
     val model_name: String,
-    val description: String,
+    val description: String?,
     val rarity: String,
     val model_thumbnail: String,
-    val xp_reward: Int
+    val xp_reward: Int,
+    val min_level: Int,
 )
 
 fun PlanetDTO.toPlanet(): Planet {
@@ -18,7 +19,8 @@ fun PlanetDTO.toPlanet(): Planet {
         description = description,
         rarity = rarity,
         planet_thumbnail = model_thumbnail,
-        planet_xp = xp_reward
+        planet_xp = xp_reward,
+        min_level = min_level
     )
 }
 

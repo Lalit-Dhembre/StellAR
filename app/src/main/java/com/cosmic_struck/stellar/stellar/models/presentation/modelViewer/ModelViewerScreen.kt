@@ -85,7 +85,7 @@ fun ModelViewerScreen(
                         )
                         Spacer(modifier = Modifier.height(16.dp))
                         Button(
-                            onClick = { viewModel.downloadModel() }
+                            onClick = { viewModel.downloadModel(state.modelURL) }
                         ) {
                             Text("Retry")
                         }
@@ -109,7 +109,7 @@ fun ModelViewerScreen(
                                 try {
                                     val file = File(state.modelURL)
                                     val isValid = file.exists() && file.isFile && file.canRead() && file.length() > 0
-                                    Log.d("ModelViewerScreen", "Model validation: path=${state.modelURL}, exists=${file.exists()}, isFile=${file.isFile}, canRead=${file.canRead()}, size=${file.length()}")
+                                    Log.d("ModelViewerScreen", "Model validation: path=${state.modelURL}, exists=${file.exists()}, isFile=${file.isFile}, canRead=${file.canRead()}, size=${file.length()}, isValid = ${isValid.toString()}")
                                     isValid
                                 } catch (e: Exception) {
                                     Log.e("ModelViewerScreen", "Error validating model path: ${e.message}")
@@ -118,7 +118,8 @@ fun ModelViewerScreen(
                             }
                         }
 
-                        if (isValidModelPath && state.modelURL.isNotEmpty()) {
+                        if ( isValidModelPath && state.modelURL.isNotEmpty()) {
+                            Log.d("Model Viewer Screen","Model path is valid")
 //                            if(state.scene == SceneType.SceneView){
                                 SceneView(
                                     modifier = Modifier

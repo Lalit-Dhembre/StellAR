@@ -3,6 +3,7 @@ package com.cosmic_struck.stellar.scanTextFeature.presentation.components
 import android.Manifest
 import android.util.Log
 import androidx.camera.core.CameraSelector
+import androidx.camera.core.ImageCapture
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
@@ -25,7 +26,9 @@ import com.google.accompanist.permissions.rememberPermissionState
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun CameraScanText(modifier: Modifier = Modifier) {
+fun CameraScanText(
+    imageCapture: ImageCapture,
+    modifier: Modifier = Modifier) {
     val context = LocalContext.current
     val permissionState = rememberPermissionState(permission = Manifest.permission.CAMERA)
 
@@ -34,7 +37,7 @@ fun CameraScanText(modifier: Modifier = Modifier) {
     }
 
     if (permissionState.status.isGranted) {
-        CameraContentScanText()
+        CameraContentScanText(imageCapture)
     } else {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             Text(text = "Camera permission is required to use this feature.")
@@ -44,12 +47,15 @@ fun CameraScanText(modifier: Modifier = Modifier) {
 
 @Composable
 fun CameraContentScanText(
+    imageCapture: ImageCapture,
     modifier: Modifier = Modifier
 ){
     val context = LocalContext.current
     val lifeCycleOwner = LocalLifecycleOwner.current
 
     val previewView = remember { PreviewView(context) }
+
+
 
     AndroidView(
         factory = {previewView},
@@ -59,7 +65,7 @@ fun CameraContentScanText(
             cameraProviderFuture.addListener({
                 val cameraProvider = cameraProviderFuture.get()
                 val preview = Preview.Builder().build()
-                preview.setSurfaceProvider(previewView.surfaceProvider)
+                preview.surfaceProvider = previewView.surfaceProvider
 
                 val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
 
@@ -69,7 +75,8 @@ fun CameraContentScanText(
                     cameraProvider.bindToLifecycle(
                         lifeCycleOwner,
                         cameraSelector,
-                        preview
+                        preview,
+                        imageCapture
                     )
                 }catch (e: Exception){
                     Log.e("CameraXX","Use case binding failed",e)
@@ -78,3 +85,4 @@ fun CameraContentScanText(
         }
     )
 }
+

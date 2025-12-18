@@ -9,8 +9,11 @@ import androidx.lifecycle.viewModelScope
 import com.cosmic_struck.stellar.common.util.Resource
 import com.cosmic_struck.stellar.common.util.earthUrl
 import com.cosmic_struck.stellar.modelScreen.domain.usecase.DownloadModelUseCase
+import com.cosmic_struck.stellar.stellar.models.domain.model.Planet
+import com.cosmic_struck.stellar.stellar.models.domain.usecase.GetModelURLUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.sceneview.node.ModelNode
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import java.io.File
@@ -19,6 +22,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ModelViewScreenViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
+    private val getModelURLUseCase: GetModelURLUseCase,
     private val downloadModelUseCase: DownloadModelUseCase
 ): ViewModel() {
 
@@ -26,6 +30,7 @@ class ModelViewScreenViewModel @Inject constructor(
     val state: State<ModelViewScreenState> = _state
 
     val planetName = savedStateHandle.get<String>("name")
+    val planetId = savedStateHandle.get<String>("id")
 
     init {
         viewModelScope.launch {
@@ -36,12 +41,36 @@ class ModelViewScreenViewModel @Inject constructor(
             )
 
             // Auto-download model if path is available
-           downloadModel()
+            getModelURL(planetId?:"")
+
         }
     }
 
-    fun downloadModel() {
-        val url = earthUrl
+    fun getModelURL(id: String){
+        getModelURLUseCase.invoke(id).onEach { result ->
+            when(result){
+                is Resource.Loading ->{
+                    _state.value = _state.value.copy(
+                        isLoading = true
+                    )
+                }
+                is Resource.Success -> {
+                    _state.value = _state.value.copy(
+                        modelURL = result.data ?: "",
+                        isLoading = false
+                    )
+                    downloadModel(state.value.modelURL)
+                }
+                is Resource.Error -> {
+                    _state.value = _state.value.copy(
+                        error = result.message ?: "Unexpected Error",
+                        isLoading = false
+                    )
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+    fun downloadModel(url: String) {
         val title = planetName ?: "model"
 
         viewModelScope.launch {
@@ -101,12 +130,11 @@ class ModelViewScreenViewModel @Inject constructor(
             }
         }
     }
-    fun resumeDownload() {
-        val url = earthUrl
+    fun resumeDownload(url: String) {
         val title = planetName ?: "model"
 
         Log.d("ModelViewScreenViewModel", "Attempting to resume download...")
-        downloadModel()
+        downloadModel(url)
     }
 
     fun onChangeRotation(rotationSpeed: Float) {

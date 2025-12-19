@@ -15,3 +15,5 @@ const val SampleDesc2 = "Saturn is the sixth planet from the Sun and the second-
 const val earthUrl = "https://vwfcaqlvmtyuarfkoewl.supabase.co/storage/v1/object/sign/XYZ/earth.glb?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81OTk4MDY2Ni05ODdiLTQ4NDgtOTBiYi05YmMwMmUwMDVhYTciLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJYWVovZWFydGguZ2xiIiwiaWF0IjoxNzY1NTc0NDQxLCJleHAiOjE3NjYxNzkyNDF9.Gt-T_fDaHPNMKn8RkKDGeXjcvOerLHTo04jMIC--TgA"
 
 const val ModelLoading = "We are fetching your planet!"
+
+const val AuthScreenCaptions = "Join over 10.000 learners over the World and enjoy online education!"

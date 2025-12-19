@@ -87,7 +87,7 @@ fun SceneView(
                     Log.d("SceneView", "Loading model from file system: $modelPath")
 
                     // Read file from file system (not assets)
-                    val file = File(modelPath)
+                    val file = File(modelPath!!)
 
                     if (!file.exists()) {
                         Log.e("SceneView", "File does not exist: $modelPath")

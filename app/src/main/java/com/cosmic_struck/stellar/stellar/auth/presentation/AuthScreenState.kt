@@ -1,0 +1,9 @@
+package com.cosmic_struck.stellar.stellar.auth.presentation
+
+data class AuthScreenState(
+    val isLoading : Boolean = false,
+    val email : String = "",
+    val password: String = "",
+    val error : String = "",
+    val success: Boolean = false
+)

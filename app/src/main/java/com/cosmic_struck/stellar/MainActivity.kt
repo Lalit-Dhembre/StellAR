@@ -18,12 +18,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
 import androidx.navigation.compose.rememberNavController
+import com.cosmic_struck.stellar.common.di.SupabaseModule
 import com.cosmic_struck.stellar.common.navigation.MainNavGraph
 import com.cosmic_struck.stellar.ui.theme.StellARTheme
 import dagger.hilt.android.AndroidEntryPoint
+import io.github.jan.supabase.SupabaseClient
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @Inject
+    lateinit var supabaseClient: SupabaseClient
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge(
@@ -35,7 +40,10 @@ class MainActivity : ComponentActivity() {
                 AppPermissionsHandler()
 
                 val navHostController = rememberNavController()
-                MainNavGraph(navHostController)
+                MainNavGraph(
+                    supabase = supabaseClient,
+                    navHostController = navHostController
+                )
             }
         }
     }

@@ -19,6 +19,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.cosmic_struck.stellar.common.components.CameraContent
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
@@ -51,7 +52,7 @@ fun CameraContentScanText(
     modifier: Modifier = Modifier
 ){
     val context = LocalContext.current
-    val lifeCycleOwner = LocalLifecycleOwner.current
+    val lifeCycleOwner = androidx.lifecycle.compose.LocalLifecycleOwner.current
 
     val previewView = remember { PreviewView(context) }
 

@@ -9,5 +9,9 @@ sealed class Screens(val route: String) {
     object ScanTextResultScreen : Screens(route = "ScanTextResultScreen")
 
     object ModelViewerScreen : Screens(route = "ModelViewerScreen")
+    object AuthScreen: Screens(route = "AuthScreen")
 
+    object CreateAccountScreen : Screens(route = "CreateAccountEmail")
+    object CreateAccountScreen1 : Screens(route = "CreateAccountPassword")
+    object LoginAccountScreen : Screens(route = "LoginAccount")
 }

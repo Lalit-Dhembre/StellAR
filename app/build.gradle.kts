@@ -1,3 +1,4 @@
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.android.application)
@@ -14,6 +15,7 @@ android {
         version = release(36)
     }
 
+
     defaultConfig {
         applicationId = "com.cosmic_struck.stellar"
         minSdk = 30
@@ -22,10 +24,18 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
         ndk {
             //noinspection ChromeOsAbiSupport
             abiFilters += listOf("arm64-v8a")
         }
+
+
+        val file = rootProject.file("secrets.properties")
+        val properties = Properties()
+        properties.load(file.inputStream())
+        buildConfigField("String", "SUPABASE_URL", properties.getProperty("SUPABASE_URL"))
+        buildConfigField("String", "SUPABASE_KEY", properties.getProperty("SUPABASE_KEY"))
     }
 
     buildTypes {
@@ -42,11 +52,12 @@ android {
         targetCompatibility = JavaVersion.VERSION_21
     }
     kotlinOptions {
-
+        freeCompilerArgs = listOf("-XXLanguage:+PropertyParamAnnotationDefaultTargetMode")
     }
     buildFeatures {
         compose = true
         prefab = true
+        buildConfig = true
     }
 }
 
@@ -127,10 +138,12 @@ dependencies {
     implementation("io.github.jan-tennert.supabase:auth-kt")
     implementation("io.github.jan-tennert.supabase:realtime-kt")
     implementation("io.github.jan-tennert.supabase:storage-kt")
+//    implementation("io.github.jan-tennert.supabase:gotrue-kt")
 
     implementation("dev.chrisbanes.haze:haze-jetpack-compose:0.4.1")
     implementation("io.github.sceneview:sceneview:2.3.1")
 
+    implementation("io.ktor:ktor-client-okhttp:3.3.3")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

@@ -29,3 +29,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "StellAR"
 include(":app")
+include(":unityLibrary:xrmanifest.androidlib")
+include(":unityLibrary")
+project(":unityLibrary").projectDir = File("L:\\AR_EDUCATION\\StellARAndroid\\unityLibrary")

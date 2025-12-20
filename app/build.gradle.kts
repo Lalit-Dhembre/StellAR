@@ -144,7 +144,12 @@ dependencies {
     implementation("io.github.sceneview:sceneview:2.3.1")
 
     implementation("io.ktor:ktor-client-okhttp:3.3.3")
-
+    implementation(project(":unityLibrary"))
+    implementation(fileTree(mapOf(
+        "dir" to "${rootProject.project(":unityLibrary").projectDir}/libs",
+        "include" to listOf("*.jar")
+    )))
+    implementation("androidx.games:games-activity:4.0.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

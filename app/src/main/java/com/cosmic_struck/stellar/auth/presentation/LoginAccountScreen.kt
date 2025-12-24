@@ -1,7 +1,6 @@
-package com.cosmic_struck.stellar.stellar.auth.presentation
+package com.cosmic_struck.stellar.auth.presentation
 
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer

@@ -1,4 +1,4 @@
-package com.cosmic_struck.stellar.modelScreen.modelViewerFeature.presentation
+package com.cosmic_struck.stellar.stellar.models.presentation.modelViewer
 
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
@@ -14,6 +14,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -28,8 +29,8 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.cosmic_struck.stellar.R
-import com.cosmic_struck.stellar.modelScreen.modelViewerFeature.presentation.components.ControlPanel
-import com.cosmic_struck.stellar.modelScreen.modelViewerFeature.presentation.components.SceneView
+import com.cosmic_struck.stellar.stellar.models.presentation.modelViewer.components.ControlPanel
+import com.cosmic_struck.stellar.stellar.models.presentation.modelViewer.components.SceneView
 import io.github.sceneview.rememberEngine
 import io.github.sceneview.rememberEnvironmentLoader
 import io.github.sceneview.rememberMaterialLoader
@@ -98,6 +99,22 @@ fun ModelViewerScreen(
             val materialLoader = rememberMaterialLoader(engine)
             val environmentLoader = rememberEnvironmentLoader(engine)
             val view = rememberView(engine)
+
+            // Safe engine cleanup on composable removal
+            DisposableEffect(engine, view) {
+                onDispose {
+                    try {
+                        Log.d("ModelViewerScreen", "Starting engine cleanup...")
+
+                        engine.destroyView(view)
+                        Thread.sleep(100)
+
+                    } catch (e: Exception) {
+                        Log.e("ModelViewerScreen", "Unexpected error during cleanup: ${e.message}", e)
+                    }
+                }
+            }
+
             val isValidModelPath = remember(state.modelURL) {
                 if (state.modelURL.isEmpty()) {
                     Log.d("SceneView", "Model path is null or empty")

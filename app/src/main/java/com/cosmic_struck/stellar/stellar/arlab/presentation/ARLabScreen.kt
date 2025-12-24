@@ -1,5 +1,3 @@
-@file:Suppress("COMPOSE_APPLIER_CALL_MISMATCH")
-
 package com.cosmic_struck.stellar.stellar.arlab.presentation
 
 import android.app.Activity

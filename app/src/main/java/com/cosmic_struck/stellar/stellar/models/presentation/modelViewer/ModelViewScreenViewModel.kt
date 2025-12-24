@@ -1,4 +1,4 @@
-package com.cosmic_struck.stellar.modelScreen.modelViewerFeature.presentation
+package com.cosmic_struck.stellar.stellar.models.presentation.modelViewer
 
 import android.util.Log
 import androidx.compose.runtime.State
@@ -7,9 +7,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cosmic_struck.stellar.common.util.Resource
-import com.cosmic_struck.stellar.common.util.earthUrl
-import com.cosmic_struck.stellar.modelScreen.domain.usecase.DownloadModelUseCase
-import com.cosmic_struck.stellar.stellar.models.domain.model.Planet
+import com.cosmic_struck.stellar.stellar.models.domain.usecase.DownloadModelUseCase
 import com.cosmic_struck.stellar.stellar.models.domain.usecase.GetModelURLUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.sceneview.node.ModelNode

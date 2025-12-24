@@ -1,4 +1,4 @@
-package com.cosmic_struck.stellar.stellar.auth.presentation
+package com.cosmic_struck.stellar.auth.presentation
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,8 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.cosmic_struck.stellar.common.navigation.Screens
-import com.cosmic_struck.stellar.stellar.auth.presentation.components.LowerPortion
-import com.cosmic_struck.stellar.stellar.auth.presentation.components.UpperPortion
+import com.cosmic_struck.stellar.auth.presentation.components.LowerPortion
+import com.cosmic_struck.stellar.auth.presentation.components.UpperPortion
 
 @Composable
 fun AuthScreen(

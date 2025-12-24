@@ -1,4 +1,4 @@
-package com.cosmic_struck.stellar.homeScreen.presentation.components
+package com.cosmic_struck.stellar.stellar.home.presentation.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

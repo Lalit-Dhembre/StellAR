@@ -1,4 +1,4 @@
-package com.cosmic_struck.stellar.scanTextFeature.presentation.components
+package com.cosmic_struck.stellar.stellar.scantext.presentation.scanScreen.components
 
 import android.Manifest
 import android.util.Log
@@ -16,11 +16,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.compose.LocalLifecycleOwner
-import com.cosmic_struck.stellar.common.components.CameraContent
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState

@@ -1,4 +1,4 @@
-package com.cosmic_struck.stellar.modelScreen.presentation.modelScreen.components
+package com.cosmic_struck.stellar.stellar.models.presentation.modelScreen.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -40,26 +40,30 @@ fun ScoreRow(modifier: Modifier = Modifier) {
         ScoreCard(
             modifier = Modifier
                 .weight(1f),
-            icon = {Icon(
-                painter = painterResource(R.drawable.material_symbols_target),
-                contentDescription = null,
-                tint = Color.Blue,
-                modifier = Modifier
-                    .size(50.dp)
-            )},
+            icon = {
+                Icon(
+                    painter = painterResource(R.drawable.material_symbols_target),
+                    contentDescription = null,
+                    tint = Color.Blue,
+                    modifier = Modifier
+                        .size(50.dp)
+                )
+            },
             title = "Available",
             score = "3"
         )
         ScoreCard(
             modifier = Modifier
                 .weight(1f),
-            icon = {Icon(
-                painter = painterResource(R.drawable.medal),
-                contentDescription = null,
-                tint = Color.Yellow,
-                modifier = Modifier
-                    .size(50.dp)
-            )},
+            icon = {
+                Icon(
+                    painter = painterResource(R.drawable.medal),
+                    contentDescription = null,
+                    tint = Color.Yellow,
+                    modifier = Modifier
+                        .size(50.dp)
+                )
+            },
             title = "Total XP",
             score = "350"
         )

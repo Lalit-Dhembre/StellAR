@@ -1,4 +1,4 @@
-package com.cosmic_struck.stellar.scanTextFeature.presentation.components
+package com.cosmic_struck.stellar.stellar.scantext.presentation.scanScreen.components
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxSize

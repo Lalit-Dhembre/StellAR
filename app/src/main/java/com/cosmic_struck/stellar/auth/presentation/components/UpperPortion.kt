@@ -1,4 +1,4 @@
-package com.cosmic_struck.stellar.stellar.auth.presentation.components
+package com.cosmic_struck.stellar.auth.presentation.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.Text

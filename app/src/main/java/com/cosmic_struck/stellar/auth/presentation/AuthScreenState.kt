@@ -1,4 +1,4 @@
-package com.cosmic_struck.stellar.stellar.auth.presentation
+package com.cosmic_struck.stellar.auth.presentation
 
 data class AuthScreenState(
     val isLoading : Boolean = false,

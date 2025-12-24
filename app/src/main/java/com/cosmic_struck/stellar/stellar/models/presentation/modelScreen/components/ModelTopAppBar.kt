@@ -1,4 +1,4 @@
-package com.cosmic_struck.stellar.modelScreen.presentation.modelScreen.components
+package com.cosmic_struck.stellar.stellar.models.presentation.modelScreen.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box

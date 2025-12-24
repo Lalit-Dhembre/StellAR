@@ -1,4 +1,4 @@
-package com.cosmic_struck.stellar.modelScreen.modelViewerFeature.presentation
+package com.cosmic_struck.stellar.stellar.models.presentation.modelViewer
 
 import io.github.sceneview.node.ModelNode
 

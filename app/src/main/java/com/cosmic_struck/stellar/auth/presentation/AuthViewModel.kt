@@ -1,11 +1,10 @@
-package com.cosmic_struck.stellar.stellar.auth.presentation
+package com.cosmic_struck.stellar.auth.presentation
 
 import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cosmic_struck.stellar.common.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.auth

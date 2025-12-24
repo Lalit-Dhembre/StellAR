@@ -1,36 +1,32 @@
-package com.cosmic_struck.stellar.scanTextFeature.presentation
+package com.cosmic_struck.stellar.stellar.scantext.presentation.scanScreen
 
 import android.app.Application
-import android.content.ContentValues
 import android.content.Context
-import android.provider.MediaStore
+import android.net.Uri
 import android.util.Log
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.cosmic_struck.stellar.common.util.Resource
 import com.cosmic_struck.stellar.stellar.scantext.domain.ImageUploadUseCase
-import com.cosmic_struck.stellar.stellar.scantext.presentation.scanScreen.ScanImageScreenState
+import com.google.mlkit.vision.common.InputImage
+import com.google.mlkit.vision.text.TextRecognizer
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
-import java.text.SimpleDateFormat
-import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
 class ScanTextViewModel @Inject constructor(
     private val imageUploadUseCase: ImageUploadUseCase,
+    private val textRecognizer: TextRecognizer,
     private val application: Application
 ) : ViewModel() {
 
@@ -39,7 +35,7 @@ class ScanTextViewModel @Inject constructor(
 
     fun captureImage(
         context: Context,
-        imageCapture: androidx.camera.core.ImageCapture,
+        imageCapture: ImageCapture,
         onImageCaptured: (File) -> Unit
     ) {
         val photoFile = File(
@@ -48,20 +44,20 @@ class ScanTextViewModel @Inject constructor(
         )
 
         val outputOptions =
-            androidx.camera.core.ImageCapture.OutputFileOptions.Builder(photoFile).build()
+            ImageCapture.OutputFileOptions.Builder(photoFile).build()
 
         imageCapture.takePicture(
             outputOptions,
             ContextCompat.getMainExecutor(context),
-            object : androidx.camera.core.ImageCapture.OnImageSavedCallback {
+            object : ImageCapture.OnImageSavedCallback {
 
                 override fun onImageSaved(
-                    outputFileResults: androidx.camera.core.ImageCapture.OutputFileResults
+                    outputFileResults: ImageCapture.OutputFileResults
                 ) {
                     onImageCaptured(photoFile)
                 }
 
-                override fun onError(exception: androidx.camera.core.ImageCaptureException) {
+                override fun onError(exception: ImageCaptureException) {
                     Log.e("CameraX", "Capture failed", exception)
                 }
             }
@@ -73,6 +69,21 @@ class ScanTextViewModel @Inject constructor(
 
 
     fun uploadImage(file: File){
+
+        val image = InputImage.fromFilePath(
+            application,
+            Uri.fromFile(file)
+        )
+
+        textRecognizer.process(image)
+            .addOnSuccessListener { it->
+                val extractedText = it.text
+                val count = it.textBlocks.size
+                Log.d("EXTRACTED TEXT",extractedText)
+            }
+            .addOnFailureListener { e ->
+                Log.d("FAILURE EXTRACTION",e.localizedMessage ?: "Unknown error occurred")
+            }
         val requestBody =
             file.asRequestBody("image/jpeg".toMediaTypeOrNull())
 

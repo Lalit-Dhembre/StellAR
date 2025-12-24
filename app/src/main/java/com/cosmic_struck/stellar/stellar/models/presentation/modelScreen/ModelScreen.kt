@@ -1,9 +1,6 @@
 package com.cosmic_struck.stellar.stellar.models.presentation.modelScreen
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Arrangement
@@ -24,10 +21,9 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.cosmic_struck.stellar.modelScreen.presentation.modelScreen.components.ListToggler
+import com.cosmic_struck.stellar.common.components.TabSwitcher
+import com.cosmic_struck.stellar.stellar.models.presentation.modelScreen.components.ScoreRow
 import com.cosmic_struck.stellar.stellar.models.presentation.modelScreen.components.PlanetCard
-import com.cosmic_struck.stellar.modelScreen.presentation.modelScreen.components.ScoreRow
-import com.cosmic_struck.stellar.stellar.models.domain.model.Planet
 
 @Composable
 fun ModelScreen(
@@ -68,7 +64,7 @@ fun ModelScreen(
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        ListToggler(
+        TabSwitcher(
             initialIndex = state.currentIndex,
             onOptionSelected = { viewModel.onToggleList() },
         )

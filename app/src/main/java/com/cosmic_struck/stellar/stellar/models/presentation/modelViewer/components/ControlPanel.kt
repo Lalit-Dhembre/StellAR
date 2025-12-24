@@ -1,4 +1,4 @@
-package com.cosmic_struck.stellar.modelScreen.modelViewerFeature.presentation.components
+package com.cosmic_struck.stellar.stellar.models.presentation.modelViewer.components
 
 import android.R
 import androidx.compose.foundation.layout.Arrangement
@@ -26,7 +26,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.cosmic_struck.stellar.modelScreen.modelViewerFeature.presentation.SceneType
+import com.cosmic_struck.stellar.stellar.models.presentation.modelViewer.SceneType
 
 @Composable
 fun ControlPanel(

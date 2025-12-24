@@ -1,4 +1,4 @@
-package com.cosmic_struck.stellar.modelScreen.presentation.modelScreen.components
+package com.cosmic_struck.stellar.common.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -29,7 +28,10 @@ import androidx.compose.ui.unit.sp
 import com.cosmic_struck.stellar.common.util.Rajdhani
 
 @Composable
-fun ListToggler(
+fun TabSwitcher(
+    nonActiveTextColor: Color = Color.Black,
+    activeTextColor: Color = Color.White,
+    modifier: Modifier = Modifier,
     options: List<String> = listOf("My Collection", "Discover"),
     initialIndex: Int = 0,
     onOptionSelected: (Int) -> Unit = {},
@@ -43,9 +45,8 @@ fun ListToggler(
     val borderPurple = Color(0xFF552288).copy(alpha = 0.5f) // Subtle border
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .height(56.dp)
             .border(1.dp, borderPurple, RoundedCornerShape(50))
             .clip(RoundedCornerShape(50))
             .padding(4.dp) // Padding between container edge and buttons
@@ -74,7 +75,7 @@ fun ListToggler(
                 ) {
                     Text(
                         text = text,
-                        color = if (isSelected) Color.White else Color.White.copy(alpha = 0.7f),
+                        color = if (isSelected) activeTextColor else nonActiveTextColor,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
                         fontFamily = fontFamily

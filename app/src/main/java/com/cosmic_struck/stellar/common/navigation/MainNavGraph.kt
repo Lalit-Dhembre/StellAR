@@ -22,17 +22,19 @@ import androidx.navigation.navDeepLink
 import com.cosmic_struck.stellar.R
 import com.cosmic_struck.stellar.common.components.BackgroundScaffold
 import com.cosmic_struck.stellar.common.components.BottomAppBar
-import com.cosmic_struck.stellar.homeScreen.presentation.HomeScreen
-import com.cosmic_struck.stellar.modelScreen.modelViewerFeature.presentation.ModelViewerScreen
-import com.cosmic_struck.stellar.modelScreen.modelViewerFeature.presentation.components.ModelViewerTopAppBar
-import com.cosmic_struck.stellar.modelScreen.presentation.modelScreen.components.ModelTopAppBar
-import com.cosmic_struck.stellar.scanTextFeature.presentation.ScanTextScreen
-import com.cosmic_struck.stellar.scanTextResultFeature.presentation.ScanTextResultScreen
+import com.cosmic_struck.stellar.home.HomeScreen
+import com.cosmic_struck.stellar.home.components.UserTopBar
+import com.cosmic_struck.stellar.stellar.home.presentation.StellarHomeScreen
+import com.cosmic_struck.stellar.stellar.models.presentation.modelViewer.ModelViewerScreen
+import com.cosmic_struck.stellar.stellar.models.presentation.modelViewer.components.ModelViewerTopAppBar
+import com.cosmic_struck.stellar.stellar.models.presentation.modelScreen.components.ModelTopAppBar
+import com.cosmic_struck.stellar.stellar.scantext.presentation.scanScreen.ScanTextScreen
+import com.cosmic_struck.stellar.stellar.scantext.presentation.scanResults.ScanTextResultScreen
 import com.cosmic_struck.stellar.stellar.arlab.presentation.ARLabScreen
-import com.cosmic_struck.stellar.stellar.auth.presentation.AuthScreen
-import com.cosmic_struck.stellar.stellar.auth.presentation.CreateAccountScreenEmailValidation
-import com.cosmic_struck.stellar.stellar.auth.presentation.CreateAccountScreenPasswordValidation
-import com.cosmic_struck.stellar.stellar.auth.presentation.LoginAccountScreen
+import com.cosmic_struck.stellar.auth.presentation.AuthScreen
+import com.cosmic_struck.stellar.auth.presentation.CreateAccountScreenEmailValidation
+import com.cosmic_struck.stellar.auth.presentation.CreateAccountScreenPasswordValidation
+import com.cosmic_struck.stellar.auth.presentation.LoginAccountScreen
 import com.cosmic_struck.stellar.stellar.models.presentation.modelScreen.ModelScreen
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.auth
@@ -50,6 +52,22 @@ fun MainNavGraph(
         NavHost(navHostController, startDestination = if(auth!= null) Screens.HomeScreen.route else Screens.AuthScreen.route) {
 
             composable(
+                route = Screens.HomeScreen.route
+            ){
+                BackgroundScaffold(
+                    navController = navHostController,
+                    topBar = {
+                        UserTopBar()
+                    },
+                    color = Color.White,
+                    bottomBar = {}
+                ) {
+                    HomeScreen(
+                        modifier = it
+                    )
+                }
+            }
+            composable(
                 route = Screens.AuthScreen.route
             ){
                 BackgroundScaffold(
@@ -66,7 +84,7 @@ fun MainNavGraph(
             }
 
             composable(
-                route = Screens.HomeScreen.route,
+                route = Screens.StellarHomeScreen.route,
                 deepLinks = listOf(navDeepLink {
                     uriPattern = "stellar://home"
                 })) {
@@ -74,7 +92,7 @@ fun MainNavGraph(
                     navController = navHostController,
                     bottomBar = { BottomAppBar(navHostController) }
                 ) {
-                    HomeScreen(
+                    StellarHomeScreen(
                         navigateToScanText = {
                             navHostController.navigate(Screens.ScanTextScreen.route)
                         }

@@ -1,4 +1,4 @@
-package com.cosmic_struck.stellar.modelScreen.domain.usecase
+package com.cosmic_struck.stellar.stellar.models.domain.usecase
 
 import android.app.Application
 import android.app.DownloadManager

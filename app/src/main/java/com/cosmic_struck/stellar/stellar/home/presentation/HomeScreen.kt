@@ -1,4 +1,4 @@
-package com.cosmic_struck.stellar.homeScreen.presentation
+package com.cosmic_struck.stellar.stellar.home.presentation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -14,14 +14,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.cosmic_struck.stellar.common.util.HomeScreenCaptions2
-import com.cosmic_struck.stellar.homeScreen.presentation.components.BottomCaptions
-import com.cosmic_struck.stellar.homeScreen.presentation.components.ScanButton
-import com.cosmic_struck.stellar.homeScreen.presentation.components.UpperCaptions
+import com.cosmic_struck.stellar.stellar.home.presentation.components.BottomCaptions
+import com.cosmic_struck.stellar.stellar.home.presentation.components.ScanButton
+import com.cosmic_struck.stellar.stellar.home.presentation.components.UpperCaptions
 
 @Composable
-fun HomeScreen(
+fun StellarHomeScreen(
     navigateToScanText: () -> Unit,
-    viewModel: HomeScreenViewModel = hiltViewModel<HomeScreenViewModel>(),
+    viewModel: StellarHomeScreenViewModel = hiltViewModel<StellarHomeScreenViewModel>(),
     modifier: Modifier = Modifier) {
     Box(
         modifier = Modifier

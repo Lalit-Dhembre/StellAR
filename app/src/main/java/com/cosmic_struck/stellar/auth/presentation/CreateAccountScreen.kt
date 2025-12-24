@@ -1,4 +1,4 @@
-package com.cosmic_struck.stellar.stellar.auth.presentation
+package com.cosmic_struck.stellar.auth.presentation
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
@@ -25,7 +25,6 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -43,12 +42,10 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.util.trace
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.cosmic_struck.stellar.R
 import com.cosmic_struck.stellar.common.util.Rajdhani
 import com.cosmic_struck.stellar.ui.theme.Blue5
-import com.cosmic_struck.stellar.ui.theme.ButtonPrimary
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

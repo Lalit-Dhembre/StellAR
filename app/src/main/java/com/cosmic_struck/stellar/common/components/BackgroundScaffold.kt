@@ -31,6 +31,7 @@ import dev.chrisbanes.haze.HazeState
 
 @Composable
 fun BackgroundScaffold(
+    color: Color = DarkBlue1,
     modifier: Modifier = Modifier,
     topBar: @Composable ()-> Unit = {},
     bottomBar: @Composable ()-> Unit = {},
@@ -50,7 +51,7 @@ fun BackgroundScaffold(
         topBar = topBar,
         modifier = modifier
             .background(
-                color = DarkBlue1
+                color = color
             )
             .fillMaxSize(),
         containerColor = Color.Transparent,

@@ -1,10 +1,9 @@
-package com.cosmic_struck.stellar.modelScreen.modelViewerFeature.presentation.components
+package com.cosmic_struck.stellar.stellar.models.presentation.modelViewer.components
 
 import android.util.Log
 import android.view.MotionEvent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -18,21 +17,15 @@ import io.github.sceneview.loaders.ModelLoader
 import io.github.sceneview.math.Position
 import io.github.sceneview.math.Rotation
 import io.github.sceneview.math.Scale
-import io.github.sceneview.model.Model
 import io.github.sceneview.node.ModelNode
 import io.github.sceneview.rememberCameraManipulator
 import io.github.sceneview.rememberCameraNode
 import io.github.sceneview.rememberCollisionSystem
-import io.github.sceneview.rememberEngine
-import io.github.sceneview.rememberEnvironmentLoader
 import io.github.sceneview.rememberMainLightNode
-import io.github.sceneview.rememberMaterialLoader
-import io.github.sceneview.rememberModelLoader
 import io.github.sceneview.rememberNodes
 import io.github.sceneview.rememberOnGestureListener
 import io.github.sceneview.rememberRenderer
 import io.github.sceneview.rememberScene
-import io.github.sceneview.rememberView
 import java.io.File
 import java.nio.ByteBuffer
 
@@ -53,7 +46,7 @@ fun SceneView(
     modifier: Modifier = Modifier
 ) {
     val loadedModelNode = remember { mutableStateOf<ModelNode?>(null) }
-    
+
         Scene(
             modifier = modifier.fillMaxSize(),
             engine = engine,

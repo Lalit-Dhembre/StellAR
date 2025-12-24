@@ -1,4 +1,4 @@
-package com.cosmic_struck.stellar.scanTextResultFeature.presentation
+package com.cosmic_struck.stellar.stellar.scantext.presentation.scanResults
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.cosmic_struck.stellar.common.util.Rajdhani
-import com.cosmic_struck.stellar.stellar.scantext.presentation.scanResults.ScanTextResultsViewModel
 import com.cosmic_struck.stellar.stellar.scantext.presentation.scanResults.components.PlanetInfoCard
 
 @Composable

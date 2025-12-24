@@ -1,7 +1,8 @@
 package com.cosmic_struck.stellar.common.navigation
 
 sealed class Screens(val route: String) {
-     object HomeScreen : Screens(route = "HomeScreen")
+    object HomeScreen: Screens(route = "HomeScreen")
+     object StellarHomeScreen : Screens(route = "StellarHomeScreen")
      object LoginScreen : Screens(route = "LoginScreen")
      object ModelScreen : Screens(route = "ModelScreen")
      object ARLabScreen : Screens(route = "ARLabScreen")
@@ -13,5 +14,4 @@ sealed class Screens(val route: String) {
 
     object CreateAccountScreen : Screens(route = "CreateAccountEmail")
     object CreateAccountScreen1 : Screens(route = "CreateAccountPassword")
-    object LoginAccountScreen : Screens(route = "LoginAccount")
 }

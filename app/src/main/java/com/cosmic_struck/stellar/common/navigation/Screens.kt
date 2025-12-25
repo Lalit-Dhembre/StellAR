@@ -14,4 +14,9 @@ sealed class Screens(val route: String) {
 
     object CreateAccountScreen : Screens(route = "CreateAccountEmail")
     object CreateAccountScreen1 : Screens(route = "CreateAccountPassword")
+
+    object PhysicsHomeScreen: Screens(route = "PhysicsHomeScreen")
+    object BiologyHomeScreen: Screens(route = "BiologyHomeScreen")
+    object ChemistryHomeScreen: Screens(route = "ChemistryHomeScreen")
+    object HistoryHomeScreen: Screens(route = "HistoryHomeScreen")
 }

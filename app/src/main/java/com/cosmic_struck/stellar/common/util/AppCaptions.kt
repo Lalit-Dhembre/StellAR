@@ -17,3 +17,6 @@ const val earthUrl = "https://vwfcaqlvmtyuarfkoewl.supabase.co/storage/v1/object
 const val ModelLoading = "We are fetching your planet!"
 
 const val AuthScreenCaptions = "Join over 10.000 learners over the World and enjoy online education!"
+
+
+lateinit var userId : String

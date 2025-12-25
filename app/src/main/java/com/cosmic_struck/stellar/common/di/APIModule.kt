@@ -1,6 +1,6 @@
 package com.cosmic_struck.stellar.common.di
 
-import com.cosmic_struck.stellar.data.remote.StellARAPI
+import com.cosmic_struck.stellar.data.stellar.remote.StellARAPI
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -5,6 +5,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.cosmic_struck.stellar.common.util.userId
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.auth
@@ -48,6 +49,7 @@ class AuthViewModel @Inject constructor(
         }
     }
 
+
     fun signInWithEmail(){
         viewModelScope.launch {
             _state.value = _state.value.copy(
@@ -55,8 +57,8 @@ class AuthViewModel @Inject constructor(
             )
             try {
                 val user =  auth.signInWith(Email){
-                    email = "lalitdhembre@gmail.com"
-                    password = "lalit123"
+                    email = state.value.email
+                    password = state.value.password
                 }
                 _state.value = _state.value.copy(
                     isLoading = false,

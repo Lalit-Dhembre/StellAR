@@ -22,8 +22,8 @@ import androidx.navigation.navDeepLink
 import com.cosmic_struck.stellar.R
 import com.cosmic_struck.stellar.common.components.BackgroundScaffold
 import com.cosmic_struck.stellar.common.components.BottomAppBar
-import com.cosmic_struck.stellar.home.HomeScreen
-import com.cosmic_struck.stellar.home.components.UserTopBar
+import com.cosmic_struck.stellar.home.presentation.HomeScreen
+import com.cosmic_struck.stellar.home.presentation.components.UserTopBar
 import com.cosmic_struck.stellar.stellar.home.presentation.StellarHomeScreen
 import com.cosmic_struck.stellar.stellar.models.presentation.modelViewer.ModelViewerScreen
 import com.cosmic_struck.stellar.stellar.models.presentation.modelViewer.components.ModelViewerTopAppBar
@@ -35,6 +35,10 @@ import com.cosmic_struck.stellar.auth.presentation.AuthScreen
 import com.cosmic_struck.stellar.auth.presentation.CreateAccountScreenEmailValidation
 import com.cosmic_struck.stellar.auth.presentation.CreateAccountScreenPasswordValidation
 import com.cosmic_struck.stellar.auth.presentation.LoginAccountScreen
+import com.cosmic_struck.stellar.biology.home.BiologyHomeScreen
+import com.cosmic_struck.stellar.chemistry.home.ChemistryHomeScreen
+import com.cosmic_struck.stellar.history.home.HistoryHomeScreen
+import com.cosmic_struck.stellar.physics.home.PhysicsHomeScreen
 import com.cosmic_struck.stellar.stellar.models.presentation.modelScreen.ModelScreen
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.auth
@@ -63,6 +67,7 @@ fun MainNavGraph(
                     bottomBar = {}
                 ) {
                     HomeScreen(
+                        navController = navHostController,
                         modifier = it
                     )
                 }
@@ -229,6 +234,19 @@ fun MainNavGraph(
                         }
                     }
                 )
+            }
+
+            composable(route = Screens.PhysicsHomeScreen.route){
+                PhysicsHomeScreen()
+            }
+            composable(route = Screens.BiologyHomeScreen.route){
+                BiologyHomeScreen()
+            }
+            composable(route = Screens.ChemistryHomeScreen.route){
+                ChemistryHomeScreen()
+            }
+            composable(route = Screens.HistoryHomeScreen.route){
+                HistoryHomeScreen()
             }
         }
     }

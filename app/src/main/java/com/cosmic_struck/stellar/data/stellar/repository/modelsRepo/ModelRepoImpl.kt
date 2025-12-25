@@ -1,6 +1,6 @@
 package com.cosmic_struck.stellar.data.repository.modelsRepo
 
-import com.cosmic_struck.stellar.data.remote.StellARAPI
+import com.cosmic_struck.stellar.data.stellar.remote.StellARAPI
 import com.cosmic_struck.stellar.data.remote.dto.PlanetDTO
 import javax.inject.Inject
 

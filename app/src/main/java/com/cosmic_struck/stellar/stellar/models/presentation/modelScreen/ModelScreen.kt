@@ -19,6 +19,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.cosmic_struck.stellar.common.components.TabSwitcher
@@ -65,6 +66,11 @@ fun ModelScreen(
         Spacer(modifier = Modifier.height(10.dp))
 
         TabSwitcher(
+
+            nonActiveTextColor = Color.White,
+            modifier = Modifier
+                .height(40.dp)
+                .padding(horizontal = 16.dp),
             initialIndex = state.currentIndex,
             onOptionSelected = { viewModel.onToggleList() },
         )

@@ -1,6 +1,8 @@
-package com.cosmic_struck.stellar.data.remote
+package com.cosmic_struck.stellar.data.stellar.remote
 
 import com.cosmic_struck.stellar.data.remote.dto.PlanetDTO
+import com.cosmic_struck.stellar.data.stellar.remote.dto.ClassroomDTOItem
+import com.cosmic_struck.stellar.data.stellar.remote.dto.JoinedClassroomDTO
 import com.cosmic_struck.stellar.data.stellar.remote.dto.ModelUrlDTO
 import com.cosmic_struck.stellar.data.stellar.remote.dto.ScanDTO
 import okhttp3.MultipartBody
@@ -8,6 +10,7 @@ import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface StellARAPI {
@@ -27,4 +30,13 @@ interface StellARAPI {
         @Part image: MultipartBody.Part
     ) : ScanDTO
 
+    @GET("/api/classroom/{classroom_id}")
+    suspend fun getClassroom(
+        @Path("classroom_id") classroom_id : String
+    ) :  List<ClassroomDTOItem>
+
+    @GET("/api/classroomjoined/{user_id}")
+    suspend fun getJoinedClassrooms(
+        @Path("user_id") user_id: String
+    ): List<JoinedClassroomDTO>
 }

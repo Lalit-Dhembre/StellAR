@@ -1,4 +1,4 @@
-package com.cosmic_struck.stellar.home.components
+package com.cosmic_struck.stellar.home.presentation.components
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background

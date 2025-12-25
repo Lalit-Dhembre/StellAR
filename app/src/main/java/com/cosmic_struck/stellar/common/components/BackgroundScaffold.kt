@@ -24,6 +24,7 @@ import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.core.view.WindowCompat
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.cosmic_struck.stellar.R
 import com.cosmic_struck.stellar.ui.theme.Blue5
 import com.cosmic_struck.stellar.ui.theme.DarkBlue1
@@ -31,11 +32,12 @@ import dev.chrisbanes.haze.HazeState
 
 @Composable
 fun BackgroundScaffold(
+    floatingActionButton: @Composable ()-> Unit = {},
     color: Color = DarkBlue1,
     modifier: Modifier = Modifier,
     topBar: @Composable ()-> Unit = {},
     bottomBar: @Composable ()-> Unit = {},
-    navController: NavController,
+    navController: NavController = rememberNavController(),
     content: @Composable (modifier: Modifier)-> Unit) {
     val hazeState = remember { HazeState() }
     val view = LocalView.current
@@ -48,6 +50,7 @@ fun BackgroundScaffold(
         }
     }
     Scaffold(
+        floatingActionButton = floatingActionButton,
         topBar = topBar,
         modifier = modifier
             .background(

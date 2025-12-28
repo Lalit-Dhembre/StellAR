@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.graphics.Color.TRANSPARENT
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
@@ -17,16 +18,25 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.navigation.compose.rememberNavController
+import androidx.work.ExistingWorkPolicy
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.cosmic_struck.stellar.common.di.SupabaseModule
 import com.cosmic_struck.stellar.common.navigation.MainNavGraph
+import com.cosmic_struck.stellar.common.work.CleanupWorker
 import com.cosmic_struck.stellar.ui.theme.StellARTheme
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.jan.supabase.SupabaseClient
+import java.io.File
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    private var sessionDirectory: File? = null
     @Inject
     lateinit var supabaseClient: SupabaseClient
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,6 +44,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge(
             navigationBarStyle = SystemBarStyle.light(scrim = TRANSPARENT, darkScrim = TRANSPARENT)
         )
+
         setContent {
             StellARTheme {
                 // Clean single-line call to handle all permissions
@@ -47,6 +58,8 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+
 }
 
 @Composable

@@ -1,4 +1,4 @@
-package com.cosmic_struck.stellar.auth.presentation
+package com.cosmic_struck.stellar.auth.presentation.screens
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
@@ -44,6 +44,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.cosmic_struck.stellar.R
+import com.cosmic_struck.stellar.auth.presentation.viewmodel.AuthViewModel
 import com.cosmic_struck.stellar.common.util.Rajdhani
 import com.cosmic_struck.stellar.ui.theme.Blue5
 
@@ -83,6 +84,8 @@ fun CreateAccountScreenEmailValidation(
         val email = remember { mutableStateOf("") }
         val activeButton = remember { mutableStateOf(false) }
         val emailPattern = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[a-z]+$"
+        var username by remember { mutableStateOf("") }
+
 
 
         Box(
@@ -93,6 +96,35 @@ fun CreateAccountScreenEmailValidation(
                 modifier = Modifier
                     .fillMaxSize()
             ) {
+                Text(
+                    text = "User Name",
+                    modifier = Modifier
+                        .padding(start = 16.dp),
+                    textAlign = TextAlign.Start,
+                    fontFamily = Rajdhani,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
+                OutlinedTextField(
+                    value = username,
+                    onValueChange = {
+                        username = it
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
+                        .clip(RoundedCornerShape(24.dp))
+                        .border(1.dp, Color.Gray, RoundedCornerShape(24.dp)),
+                    placeholder = {
+                        Text(
+                            text = "Abc",
+                            fontFamily = Rajdhani,
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Light
+                        )
+                    }
+                )
+                Spacer(modifier = Modifier.height(20.dp))
                 Text(
                     text = "Email",
                     modifier = Modifier
@@ -134,6 +166,9 @@ fun CreateAccountScreenEmailValidation(
                     onClick = {
                         viewModel.setEmailAddress(
                             email.value
+                        )
+                        viewModel.setUsername(
+                            username
                         )
                         navigateToPasswordValidation()
                     },

@@ -8,38 +8,39 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
+import androidx.navigation.navigation
 import com.cosmic_struck.stellar.R
-import com.cosmic_struck.stellar.common.components.BackgroundScaffold
-import com.cosmic_struck.stellar.common.components.BottomAppBar
-import com.cosmic_struck.stellar.home.presentation.HomeScreen
-import com.cosmic_struck.stellar.home.presentation.components.UserTopBar
-import com.cosmic_struck.stellar.stellar.home.presentation.StellarHomeScreen
-import com.cosmic_struck.stellar.stellar.models.presentation.modelViewer.ModelViewerScreen
-import com.cosmic_struck.stellar.stellar.models.presentation.modelViewer.components.ModelViewerTopAppBar
-import com.cosmic_struck.stellar.stellar.models.presentation.modelScreen.components.ModelTopAppBar
-import com.cosmic_struck.stellar.stellar.scantext.presentation.scanScreen.ScanTextScreen
-import com.cosmic_struck.stellar.stellar.scantext.presentation.scanResults.ScanTextResultScreen
-import com.cosmic_struck.stellar.stellar.arlab.presentation.ARLabScreen
-import com.cosmic_struck.stellar.auth.presentation.AuthScreen
-import com.cosmic_struck.stellar.auth.presentation.CreateAccountScreenEmailValidation
-import com.cosmic_struck.stellar.auth.presentation.CreateAccountScreenPasswordValidation
-import com.cosmic_struck.stellar.auth.presentation.LoginAccountScreen
+import com.cosmic_struck.stellar.auth.presentation.screens.AuthScreen
+import com.cosmic_struck.stellar.auth.presentation.viewmodel.AuthViewModel
 import com.cosmic_struck.stellar.biology.home.BiologyHomeScreen
 import com.cosmic_struck.stellar.chemistry.home.ChemistryHomeScreen
+import com.cosmic_struck.stellar.common.components.BackgroundScaffold
+import com.cosmic_struck.stellar.common.components.BottomAppBar
 import com.cosmic_struck.stellar.history.home.HistoryHomeScreen
+import com.cosmic_struck.stellar.home.presentation.screens.HomeScreen
 import com.cosmic_struck.stellar.physics.home.PhysicsHomeScreen
+import com.cosmic_struck.stellar.stellar.arlab.presentation.ARLabScreen
+import com.cosmic_struck.stellar.stellar.home.presentation.StellarHomeScreen
 import com.cosmic_struck.stellar.stellar.models.presentation.modelScreen.ModelScreen
+import com.cosmic_struck.stellar.stellar.models.presentation.modelScreen.components.ModelTopAppBar
+import com.cosmic_struck.stellar.stellar.models.presentation.modelViewer.ModelViewerScreen
+import com.cosmic_struck.stellar.stellar.models.presentation.modelViewer.components.ModelViewerTopAppBar
+import com.cosmic_struck.stellar.stellar.scantext.presentation.scanScreen.ScanResultsScreen
+import com.cosmic_struck.stellar.stellar.scantext.presentation.scanScreen.ScanTextScreen
+import com.cosmic_struck.stellar.stellar.scantext.presentation.scanScreen.ScanTextViewModel
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.auth
 
@@ -53,40 +54,16 @@ fun MainNavGraph(
         val auth = supabase.auth.currentSessionOrNull()
 
         Log.d("MAINNAVGRAPH",auth.toString())
-        NavHost(navHostController, startDestination = if(auth!= null) Screens.HomeScreen.route else Screens.AuthScreen.route) {
+        NavHost(navHostController, startDestination = if(auth!= null) Screens.HomeScreen.route else "auth_graph") {
 
             composable(
                 route = Screens.HomeScreen.route
             ){
-                BackgroundScaffold(
-                    navController = navHostController,
-                    topBar = {
-                        UserTopBar()
-                    },
-                    color = Color.White,
-                    bottomBar = {}
-                ) {
                     HomeScreen(
-                        navController = navHostController,
-                        modifier = it
+                        navController = navHostController
                     )
-                }
             }
-            composable(
-                route = Screens.AuthScreen.route
-            ){
-                BackgroundScaffold(
-                    navController = navHostController
-                ) {
-                    AuthScreen(
-                        modifier = it,
-                        navController = navHostController,
-                        navigateToHomeScreen = {
-                            navHostController.navigate(Screens.HomeScreen.route)
-                        }
-                    )
-                }
-            }
+
 
             composable(
                 route = Screens.StellarHomeScreen.route,
@@ -125,56 +102,78 @@ fun MainNavGraph(
                     ARLabScreen()
                 }
             }
-            composable(Screens.ScanTextScreen.route){
-                ScanTextScreen(
-                    navigateToResults = {it->
-                        navHostController.navigate(
-                            Screens.ScanTextResultScreen.route + "/$it",
-                        )
-                    },
-                    navigateBack = {
-                        navHostController.popBackStack()
-                    }
-                )
+            navigation(startDestination = Screens.ClassroomHomeScreen.route, route = "classroom_graph"){
+
             }
 
-            composable(Screens.ScanTextResultScreen.route + "/{detections}"){
-                BackgroundScaffold(
-                    topBar = {
-                        TopAppBar(
-                            title = {
-                                Text(
-                                    "Scan Result",
-                                    fontSize = 18.sp,
-                                    fontWeight = FontWeight.Medium,
-                                    color = Color.White
-                                )
-                            },
-                            navigationIcon = {
-                                IconButton(onClick = {
-                                    navHostController.popBackStack()
-                                }) {
-                                    Icon(
-                                        painterResource(R.drawable.back),
-                                        contentDescription = "Back",
-                                        tint = Color.White
-                                    )
+            navigation(
+                route = "scan_graph",
+                startDestination = Screens.ScanTextScreen.route
+            ) {
+
+                composable(Screens.ScanTextScreen.route) {entry->
+                    val parentEntry = remember(entry) {
+                        navHostController.getBackStackEntry("scan_graph")
+                    }
+                    val scanViewModel: ScanTextViewModel = hiltViewModel<ScanTextViewModel>(parentEntry)
+                    ScanTextScreen(
+                        viewModel = scanViewModel,
+                        navigateToResults = {
+                            navHostController.navigate(Screens.ScanTextResultScreen.route){
+                                popUpTo(Screens.ScanTextScreen.route){
+                                    inclusive = true
                                 }
-                            },
-                            colors = TopAppBarDefaults.topAppBarColors(
-                                containerColor = Color(0xFF1A2B4D)
-                            )
-                        )
-                    },
-                    navController = navHostController
-                ) {
-                    ScanTextResultScreen(
+                            }
+                        },
                         navigateBack = {
                             navHostController.popBackStack()
                         }
                     )
                 }
+
+                composable(Screens.ScanTextResultScreen.route) {entry->
+
+                    val parentEntry = remember(entry) {
+                        navHostController.getBackStackEntry("scan_graph")
+                    }
+                    val scanViewModel: ScanTextViewModel = hiltViewModel<ScanTextViewModel>(parentEntry)
+                    BackgroundScaffold(
+                        topBar = {
+                            TopAppBar(
+                                title = {
+                                    Text(
+                                        "Scan Result",
+                                        fontSize = 18.sp,
+                                        fontWeight = FontWeight.Medium,
+                                        color = Color.White
+                                    )
+                                },
+                                navigationIcon = {
+                                    IconButton(onClick = {
+                                        navHostController.popBackStack()
+                                    }) {
+                                        Icon(
+                                            painterResource(R.drawable.back),
+                                            contentDescription = "Back",
+                                            tint = Color.White
+                                        )
+                                    }
+                                },
+                                colors = TopAppBarDefaults.topAppBarColors(
+                                    containerColor = Color(0xFF1A2B4D)
+                                )
+                            )
+                        },
+                        navController = navHostController
+                    ) {
+                        ScanResultsScreen(
+                            viewModel = scanViewModel,
+                            modifier = it
+                        )
+                    }
+                }
             }
+
             composable(
                 Screens.ModelViewerScreen.route+"/{name}/{id}",
                 arguments = listOf(
@@ -195,46 +194,35 @@ fun MainNavGraph(
                 }
             }
 
-            composable(route = Screens.CreateAccountScreen.route){
-                CreateAccountScreenEmailValidation(
-                    navigateToPasswordValidation = {
-                        navHostController.navigate(Screens.CreateAccountScreen1.route)
-                    },
-                    navigateback = {
-                        navHostController.popBackStack()
+            navigation(
+                route= "auth_graph",
+                startDestination = Screens.AuthScreen.route){
+                composable(
+                    route = Screens.AuthScreen.route
+                ){it->
+                    val parentEntry = remember(it) {
+                        navHostController.getBackStackEntry("auth_graph")
                     }
-                )
+                    val viewModel: AuthViewModel = hiltViewModel<AuthViewModel>(parentEntry)
+                    BackgroundScaffold(
+                        navController = navHostController
+                    ) {
+                        AuthScreen(
+                            viewmodel = viewModel,
+                            modifier = it,
+                            navController = navHostController,
+                            navigateToHomeScreen = {
+                                navHostController.navigate(Screens.HomeScreen.route)
+                            }
+                        )
+                    }
+                }
+
+
+
             }
 
-            composable(route = Screens.CreateAccountScreen1.route){
-                CreateAccountScreenPasswordValidation(
-                    navigateback = {
-                        navHostController.popBackStack()
-                    },
-                    navigateToHomeScreen = {
-                        navHostController.navigate(Screens.HomeScreen.route){
-                            popUpTo(Screens.AuthScreen.route){
-                                inclusive = true
-                            }
-                        }
-                    }
-                )
-            }
 
-            composable(route = Screens.LoginScreen.route){
-                LoginAccountScreen(
-                    navigateback = {
-                        navHostController.popBackStack()
-                    },
-                    navigateToHomeScreen = {
-                        navHostController.navigate(Screens.HomeScreen.route){
-                            popUpTo(Screens.AuthScreen.route){
-                                inclusive = true
-                            }
-                        }
-                    }
-                )
-            }
 
             composable(route = Screens.PhysicsHomeScreen.route){
                 PhysicsHomeScreen()
@@ -248,5 +236,6 @@ fun MainNavGraph(
             composable(route = Screens.HistoryHomeScreen.route){
                 HistoryHomeScreen()
             }
+
         }
     }

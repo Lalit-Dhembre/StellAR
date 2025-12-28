@@ -20,13 +20,14 @@ import com.cosmic_struck.stellar.data.stellar.remote.dto.JoinedClassroomDTO
 
 @Composable
 fun ClassroomCard(
+    onClick: () -> Unit,
     classroom: JoinedClassroomDTO,
     modifier: Modifier = Modifier) {
 
     val color = getClassroomColor()
     Card(
         modifier = modifier,
-        onClick = { /*TODO*/ },
+        onClick = { onClick() },
         colors = CardDefaults.cardColors(
             containerColor = color,
             contentColor = Color.Black

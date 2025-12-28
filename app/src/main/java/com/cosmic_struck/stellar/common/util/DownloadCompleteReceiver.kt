@@ -5,12 +5,14 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Environment
 import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import java.io.File
 
 class DownloadCompleteReceiver : BroadcastReceiver() {
+
     companion object {
         private var currentDownloadId = -1L
         private var currentFilePath = ""
@@ -50,7 +52,6 @@ class DownloadCompleteReceiver : BroadcastReceiver() {
             if (id != -1L && id == currentDownloadId) {
                 Log.d("DownloadCompleteReceiver", "Download broadcast received for ID: $id")
 
-                // Query download status
                 val downloadManager = context?.getSystemService(Context.DOWNLOAD_SERVICE) as? DownloadManager
                 val query = DownloadManager.Query().setFilterById(id)
                 val cursor = downloadManager?.query(query)
@@ -65,12 +66,10 @@ class DownloadCompleteReceiver : BroadcastReceiver() {
                         DownloadManager.STATUS_SUCCESSFUL -> {
                             Log.d("DownloadCompleteReceiver", "Download successful for ID: $id")
 
-                            // Get file path and verify
-                            val fileUriColumnIndex = cursor.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI)
-                            val fileUri = cursor.getString(fileUriColumnIndex)
-                            val file = fileUri?.let { Uri.parse(it).path }?.let { File(it) }
+                            // Verify file exists at the target path
+                            val file = File(currentFilePath)
 
-                            if (file?.exists() == true && file.length() > 0) {
+                            if (file.exists() && file.length() > 0) {
                                 Log.d(
                                     "DownloadCompleteReceiver",
                                     "File verified: ${file.absolutePath}, Size: ${file.length()} bytes"
@@ -104,36 +103,6 @@ class DownloadCompleteReceiver : BroadcastReceiver() {
                             emitError("Download failed: $reasonText")
 
                             reset()
-                        }
-
-                        DownloadManager.STATUS_RUNNING -> {
-                            val bytesDownloadedColumnIndex = cursor.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR)
-                            val totalSizeColumnIndex = cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES)
-
-                            val bytesDownloaded = cursor.getLong(bytesDownloadedColumnIndex)
-                            val totalSize = cursor.getLong(totalSizeColumnIndex)
-
-                            if (totalSize > 0) {
-                                val progress = (bytesDownloaded * 100 / totalSize).toInt()
-                                Log.d("DownloadCompleteReceiver", "Download progress: $progress% ($bytesDownloaded/$totalSize bytes)")
-                            }
-                        }
-
-                        DownloadManager.STATUS_PENDING -> {
-                            Log.d("DownloadCompleteReceiver", "Download pending for ID: $id")
-                        }
-
-                        DownloadManager.STATUS_PAUSED -> {
-                            val reasonColumnIndex = cursor.getColumnIndex(DownloadManager.COLUMN_REASON)
-                            val reason = cursor.getInt(reasonColumnIndex)
-
-                            val reasonText = when (reason) {
-                                DownloadManager.PAUSED_WAITING_FOR_NETWORK -> "Waiting for network"
-                                DownloadManager.PAUSED_WAITING_TO_RETRY -> "Waiting to retry"
-                                else -> "Reason: $reason"
-                            }
-
-                            Log.d("DownloadCompleteReceiver", "Download paused for ID: $id - $reasonText")
                         }
                     }
                     cursor.close()

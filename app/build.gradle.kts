@@ -147,6 +147,10 @@ dependencies {
     implementation("com.google.mlkit:text-recognition:16.0.1")
     implementation("com.google.android.gms:play-services-mlkit-text-recognition:19.0.1")
 
+    implementation("com.google.accompanist:accompanist-swiperefresh:0.36.0")
+    implementation("io.coil-kt:coil-compose:2.4.0")
+// OkHttp for HTTP client
+    implementation("com.squareup.okhttp3:okhttp:4.11.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

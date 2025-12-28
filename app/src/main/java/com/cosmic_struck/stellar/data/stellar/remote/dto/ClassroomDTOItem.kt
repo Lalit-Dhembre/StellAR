@@ -1,9 +1,7 @@
 package com.cosmic_struck.stellar.data.stellar.remote.dto
 
 data class ClassroomDTOItem(
-    val created_at: String,
-    val created_by: String,
-    val id: String,
-    val join_code: String,
-    val name: String
+    val author: String,
+    val classroom: String,
+    val count_member: String
 )

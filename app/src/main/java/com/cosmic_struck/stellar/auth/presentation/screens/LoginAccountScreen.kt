@@ -1,4 +1,4 @@
-package com.cosmic_struck.stellar.auth.presentation
+package com.cosmic_struck.stellar.auth.presentation.screens
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.cosmic_struck.stellar.R
+import com.cosmic_struck.stellar.auth.presentation.viewmodel.AuthViewModel
 import com.cosmic_struck.stellar.common.util.Rajdhani
 import com.cosmic_struck.stellar.ui.theme.Blue5
 
@@ -52,7 +53,7 @@ fun LoginAccountScreen(
     val check1 = remember { mutableStateOf(false) }
     val check2 = remember { mutableStateOf(false) }
     val emailPattern = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[a-z]+$"
-
+    val showError = remember { mutableStateOf(false) }
     val state = viewModel.state.value
 
     LaunchedEffect(state.success) {
@@ -96,6 +97,7 @@ fun LoginAccountScreen(
                     .fillMaxSize(),
 
             ) {
+
                 Text(
                     text = "Email",
                     modifier = Modifier
@@ -163,6 +165,26 @@ fun LoginAccountScreen(
                     singleLine = true
                 )
                 Spacer(modifier = Modifier.height(20.dp))
+                LaunchedEffect(state.error) {
+                    if(state.error.isNotEmpty()){
+                        showError.value = true
+                    }
+                }
+                if(showError.value){
+                    Text(
+                        text = state.error,
+                        color = Color.Red,
+                        fontFamily = Rajdhani,
+                        fontSize = 14.sp,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 16.dp),
+                        textAlign = TextAlign.Center,
+                        maxLines = 1
+                    )
+                    Spacer(modifier = Modifier.height(20.dp))
+                }
+
                 Button(
                     onClick = {
                         viewModel.setEmailAddress(email.value)

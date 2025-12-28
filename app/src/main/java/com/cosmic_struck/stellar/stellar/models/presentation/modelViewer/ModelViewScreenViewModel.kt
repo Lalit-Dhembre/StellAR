@@ -72,7 +72,7 @@ class ModelViewScreenViewModel @Inject constructor(
         val title = planetName ?: "model"
 
         viewModelScope.launch {
-            downloadModelUseCase(url = url, title = title).onEach { result ->
+            downloadModelUseCase(url = url, title = title).collect { result ->
                 when(result) {
                     is Resource.Error<*> -> {
                         _state.value = _state.value.copy(
@@ -91,7 +91,7 @@ class ModelViewScreenViewModel @Inject constructor(
                     }
 
                     is Resource.Success<*> -> {
-                        val filePath = result.data as? String
+                        val filePath = result.data
 
                         if (filePath != null && File(filePath).exists()) {
                             val fileSize = File(filePath).length()
@@ -111,7 +111,7 @@ class ModelViewScreenViewModel @Inject constructor(
                         }
                     }
                 }
-            }.collect { }
+            }
         }
     }
 

@@ -19,4 +19,7 @@ sealed class Screens(val route: String) {
     object BiologyHomeScreen: Screens(route = "BiologyHomeScreen")
     object ChemistryHomeScreen: Screens(route = "ChemistryHomeScreen")
     object HistoryHomeScreen: Screens(route = "HistoryHomeScreen")
+
+    object ClassroomHomeScreen: Screens(route = "ClassroomHomeScreen")
+    object ClassroomModelScreen: Screens(route = "ClassroomModelScreen")
 }

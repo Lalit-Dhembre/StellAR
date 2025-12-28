@@ -72,6 +72,7 @@ fun ModelViewerScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Log.d("Error",state.error.toString())
             Text(
                 text = "Error loading model",
                 style = MaterialTheme.typography.headlineSmall,
@@ -136,7 +137,6 @@ fun ModelViewerScreen(
             }
 
             if (isValidModelPath && state.modelURL.isNotEmpty()) {
-                Log.d("Model Viewer Screen", "Model path is valid")
                 SceneView(
                     modifier = Modifier.align(Alignment.Center),
                     cameraDistance = state.cameraDistance,

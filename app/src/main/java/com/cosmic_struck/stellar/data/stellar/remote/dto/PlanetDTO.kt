@@ -2,9 +2,10 @@ package com.cosmic_struck.stellar.data.remote.dto
 
 import com.cosmic_struck.stellar.stellar.models.domain.model.Planet
 
-data class PlanetDTO(
+data class ModelDTO(
     val model_id: String,
     val model_name: String,
+    val model_url: String,
     val description: String?,
     val rarity: String,
     val model_thumbnail: String,
@@ -12,7 +13,7 @@ data class PlanetDTO(
     val min_level: Int,
 )
 
-fun PlanetDTO.toPlanet(): Planet {
+fun ModelDTO.toPlanet(): Planet {
     return Planet(
         planet_id = model_id,
         planet_name = model_name,

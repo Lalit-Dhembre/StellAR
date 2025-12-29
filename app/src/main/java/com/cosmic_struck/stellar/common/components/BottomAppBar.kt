@@ -51,12 +51,12 @@ data class BottomAppBarItems(
 val bottomAppBarItems = listOf(
     BottomAppBarItems(
         title = "Home",
-        route = Screens.HomeScreen.route,
+        route = Screens.StellarHomeScreen.route,
         image = R.drawable.vector
     ),
     BottomAppBarItems(
         title = "Models",
-        route = Screens.ModelScreen.route,
+        route = "model_graph",
         image = R.drawable.db
     ),
     BottomAppBarItems(

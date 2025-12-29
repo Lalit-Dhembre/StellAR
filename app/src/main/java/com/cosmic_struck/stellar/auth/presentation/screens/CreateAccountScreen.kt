@@ -1,5 +1,6 @@
 package com.cosmic_struck.stellar.auth.presentation.screens
 
+import android.util.Log
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.border
@@ -27,6 +28,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -231,10 +233,11 @@ fun CreateAccountScreenPasswordValidation(
         }, label = "color"
     )
 
-    val state = viewModel.state.value
+    val state = viewModel.state.collectAsState().value
 
     LaunchedEffect(state.success) {
         if(state.success){
+            Log.d("Launched Effect","Launched Effect Triggered")
             navigateToHomeScreen()
         }
     }

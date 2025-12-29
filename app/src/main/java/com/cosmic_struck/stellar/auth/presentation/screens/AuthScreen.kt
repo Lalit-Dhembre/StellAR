@@ -15,10 +15,12 @@ import com.cosmic_struck.stellar.common.navigation.Screens
 import com.cosmic_struck.stellar.auth.presentation.components.LowerPortion
 import com.cosmic_struck.stellar.auth.presentation.components.UpperPortion
 import com.cosmic_struck.stellar.auth.presentation.viewmodel.AuthViewModel
+import com.cosmic_struck.stellar.common.components.BackgroundScaffold
 
 @Composable
 fun AuthScreen(
-    navController: NavController,
+    navigateToLoginScreen: () -> Unit,
+    navigateToSignUpScreen: () -> Unit,
     navigateToHomeScreen : () -> Unit,
     viewmodel: AuthViewModel = hiltViewModel<AuthViewModel>(),
     modifier: Modifier = Modifier) {
@@ -30,34 +32,36 @@ fun AuthScreen(
             navigateToHomeScreen()
         }
     }
-    Box(
-        modifier = modifier
-            .fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ){
-        Column(
-            modifier = Modifier,
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Spacer(modifier = Modifier
-                .weight(1f))
-            UpperPortion(
-                modifier = Modifier
-                    .weight(1f)
-            )
-            LowerPortion(
-                navigateToLoginAccount = {
-                    navController.navigate(Screens.LoginScreen.route)
-                },
-                navigateToCreateAccount = {
-                    navController.navigate(Screens.CreateAccountScreen.route)
-                },
-                modifier = Modifier
-                    .weight(1f)
-            )
+    BackgroundScaffold(
 
+    ) {
+        Box(
+            modifier = it
+                .fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ){
+            Column(
+                modifier = Modifier,
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Spacer(modifier = Modifier
+                    .weight(1f))
+                UpperPortion(
+                    modifier = Modifier
+                        .weight(1f)
+                )
+                LowerPortion(
+
+                    modifier = Modifier
+                        .weight(1f),
+                    navigateToLoginAccount = navigateToLoginScreen,
+                    navigateToCreateAccount = navigateToSignUpScreen
+                )
+
+            }
         }
     }
+
 
 }

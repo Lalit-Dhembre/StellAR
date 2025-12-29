@@ -33,9 +33,9 @@ class AuthViewModel @Inject constructor(
         viewModelScope.launch {
             signUpUseCase(state.value.username,state.value.email,state.value.password).collect {
                 when(it){
-                    is Resource.Loading<*> -> { _state.value.copy(isLoading = true) }
-                    is Resource.Error<*> -> {_state.value.copy(isLoading = false, error = it.message.toString())}
-                    is Resource.Success<*> -> {_state.value.copy(isLoading = false, success = true)}
+                    is Resource.Loading<*> -> {_state.value = _state.value.copy(isLoading = true) }
+                    is Resource.Error<*> -> {_state.value = _state.value.copy(isLoading = false, error = it.message.toString())}
+                    is Resource.Success<*> -> {_state.value = _state.value.copy(isLoading = false, success = true)}
                 }
             }
         }

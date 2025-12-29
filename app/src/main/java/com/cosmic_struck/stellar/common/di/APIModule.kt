@@ -1,6 +1,6 @@
 package com.cosmic_struck.stellar.common.di
 
-import com.cosmic_struck.stellar.data.stellar.remote.StellARAPI
+import com.cosmic_struck.stellar.stellar.scantext.data.remote.ScanService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,13 +26,12 @@ object APIModule {
     }
     @Provides
     @Singleton
-    fun provideStellARAPI() : StellARAPI{
-        return Retrofit
-            .Builder()
+    fun provideScanService(okHttpClient: OkHttpClient): ScanService {
+        return Retrofit.Builder()
             .baseUrl("http://192.168.1.3:5000")
             .client(provideOkHttpClient())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(StellARAPI::class.java)
+            .create(ScanService::class.java)
     }
 }

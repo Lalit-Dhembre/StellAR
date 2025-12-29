@@ -8,8 +8,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import com.cosmic_struck.stellar.common.util.Resource
-import com.cosmic_struck.stellar.home.domain.usecases.GetJoinedClassroomsUseCases
-import com.cosmic_struck.stellar.home.domain.usecases.GetUserUseCase
+import com.cosmic_struck.stellar.home.domain.usecases.GetUserJoinedClassroomsUseCase
+import com.cosmic_struck.stellar.home.domain.usecases.GetUserProfileUseCase
 import com.cosmic_struck.stellar.home.domain.usecases.JoinClassroomUseCase
 import com.cosmic_struck.stellar.home.presentation.ClassroomJoinStatus
 import com.cosmic_struck.stellar.home.presentation.HomeScreenState
@@ -24,9 +24,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeScreenViewModel @Inject constructor(
+    private val getUserJoinedClassroomsUseCase: GetUserJoinedClassroomsUseCase,
+    private val getUserProfileUseCase: GetUserProfileUseCase,
     private val joinClassroomUseCase: JoinClassroomUseCase,
-    private val getUserUseCase: GetUserUseCase,
-    private val getJoinedClassroomsUseCases: GetJoinedClassroomsUseCases,
     private val supabaseClient: SupabaseClient
 ): ViewModel() {
 
@@ -75,7 +75,7 @@ class HomeScreenViewModel @Inject constructor(
                     is Resource.Success<*> -> {
                         _state.value = _state.value.copy(
                             isLoading = false,
-                            classroomJoinStatus = if(it.data == true) ClassroomJoinStatus.JOINED else ClassroomJoinStatus.ERROR
+                            classroomJoinStatus = if(it.data != null) ClassroomJoinStatus.JOINED else ClassroomJoinStatus.ERROR
                         )
                         getJoinedClassrooms()
                     }
@@ -90,7 +90,7 @@ class HomeScreenViewModel @Inject constructor(
     fun getUser(){
         viewModelScope.launch {
             val userId = supabaseClient.auth.retrieveUserForCurrentSession().id
-            getUserUseCase(userId).collect{it->
+            getUserProfileUseCase(userId).collect{it->
                 when(it){
                     is Resource.Loading<*> -> _state.value = _state.value.copy(isLoading = true)
 
@@ -109,13 +109,13 @@ class HomeScreenViewModel @Inject constructor(
         viewModelScope.launch {
             val userId = supabaseClient.auth.retrieveUserForCurrentSession().id
             Log.d("UserId",userId.toString())
-            getJoinedClassroomsUseCases(userId).collect { it->
+            getUserJoinedClassroomsUseCase(userId).collect { it->
                 when (it){
                     is Resource.Loading<*> -> _state.value = _state.value.copy(isLoading = true)
 
                     is Resource.Error<*> -> _state.value = _state.value.copy(error = it.message, isLoading = false)
 
-                    is Resource.Success<*> -> _state.value = _state.value.copy(joinedClassrooms = it.data?:emptyList(), isLoading = false)
+                    is Resource.Success<*> -> _state.value = _state.value.copy(joinedClassrooms = it.data ?: emptyList(), isLoading = false)
 
                 }
             }

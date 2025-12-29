@@ -16,12 +16,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.cosmic_struck.stellar.common.util.Rajdhani
 import com.cosmic_struck.stellar.common.util.getClassroomColor
-import com.cosmic_struck.stellar.data.stellar.remote.dto.JoinedClassroomDTO
+import com.cosmic_struck.stellar.home.data.dto.JoinedClassroom
 
 @Composable
 fun ClassroomCard(
     onClick: () -> Unit,
-    classroom: JoinedClassroomDTO,
+    classroom: JoinedClassroom,
     modifier: Modifier = Modifier) {
 
     val color = getClassroomColor()
@@ -41,21 +41,21 @@ fun ClassroomCard(
             horizontalAlignment = Alignment.Start
         ) {
             Text(
-                text = classroom.name,
+                text = classroom.classroom_name,
                 fontFamily = Rajdhani,
                 fontSize = 32.sp,
                 fontWeight = FontWeight.Bold
             )
 
             Text(
-                text =  classroom.author,
+                text =  classroom.classroom_name,
                 fontFamily = Rajdhani,
                 fontSize = 22.sp,
                 fontWeight = FontWeight.SemiBold
             )
 
             Text(
-                text = "No of Members: ${classroom.count_member.toString()}",
+                text = "No of Members: ${classroom.member_count}",
                 fontFamily = Rajdhani,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Normal

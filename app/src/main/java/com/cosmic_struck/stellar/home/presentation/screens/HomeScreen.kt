@@ -44,7 +44,8 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun HomeScreen(
-    navController: NavController,
+    navigateToModuleScreen: (String) -> Unit,
+    navigateToClassroomHomeScreen: () -> Unit,
     viewModel: HomeScreenViewModel = hiltViewModel<HomeScreenViewModel>(),
     modifier: Modifier = Modifier) {
 
@@ -136,7 +137,7 @@ fun HomeScreen(
                             GridItem(
                                 modifier = Modifier
                                     .padding(10.dp),
-                                onClick = { navController.navigate(it.navigationRoute) },
+                                onClick = { navigateToModuleScreen(it.navigationRoute) },
                                 color = it.color,
                                 title = it.title,
                                 icon = it.icon
@@ -153,7 +154,7 @@ fun HomeScreen(
                             state.joinedClassrooms.forEach { it ->
                                 ClassroomCard(
                                     onClick = {
-                                        navController.navigate(Screens.ClassroomHomeScreen.route + it.classroom_id)
+                                        navigateToClassroomHomeScreen()
                                     },
                                     classroom = it,
                                     modifier = Modifier

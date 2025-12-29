@@ -28,7 +28,7 @@ import com.skydoves.landscapist.coil.CoilImage
 
 @Composable
 fun ModelCardClassroom(
-    navigateToModelScreen: (String,String) -> Unit,
+    navigateToModelScreen: () -> Unit,
     modelURL: String,
     modelThumbnail: String,
     modelName: String,
@@ -40,7 +40,7 @@ fun ModelCardClassroom(
             .padding(horizontal = 10.dp)
             .shadow(elevation = 20.dp, shape = RoundedCornerShape(24.dp), ambientColor = Color.DarkGray)
             .clickable{
-                navigateToModelScreen(modelURL,modelName)
+                navigateToModelScreen()
             },
         elevation = CardDefaults.cardElevation(
             defaultElevation = 20.dp

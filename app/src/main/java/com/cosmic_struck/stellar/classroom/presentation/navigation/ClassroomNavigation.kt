@@ -1,16 +1,19 @@
 package com.cosmic_struck.stellar.classroom.presentation.navigation
 
 import androidx.compose.runtime.remember
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import com.cosmic_struck.stellar.classroom.presentation.screens.ClassroomHomeScreen
+import com.cosmic_struck.stellar.classroom.presentation.viewmodel.ClassroomViewModel
 import com.cosmic_struck.stellar.common.navigation.Screens
 
 fun NavGraphBuilder.classroomGraph(navHostController: NavHostController){
     navigation(
         route = "classroom_graph",
-        startDestination = Screens.ClassroomHomeScreen.route
+        startDestination = ClassroomScreens.ClassroomHomeScreen.route
     ){
         composable(
             route = ClassroomScreens.ClassroomHomeScreen.route
@@ -18,7 +21,11 @@ fun NavGraphBuilder.classroomGraph(navHostController: NavHostController){
             val entry = remember(it){
                 navHostController.getBackStackEntry("classroom_graph")
             }
-
+            val viewmodel : ClassroomViewModel = hiltViewModel<ClassroomViewModel>(entry)
+            ClassroomHomeScreen(
+                navigateToModelScreen = {},
+                viewmodel = viewmodel
+            )
         }
 
         composable(

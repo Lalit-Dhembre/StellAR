@@ -11,6 +11,7 @@ import com.cosmic_struck.stellar.auth.presentation.screens.CreateAccountScreenEm
 import com.cosmic_struck.stellar.auth.presentation.screens.CreateAccountScreenPasswordValidation
 import com.cosmic_struck.stellar.auth.presentation.screens.LoginAccountScreen
 import com.cosmic_struck.stellar.auth.presentation.viewmodel.AuthViewModel
+import com.cosmic_struck.stellar.common.components.BackgroundScaffold
 import com.cosmic_struck.stellar.common.navigation.Screens
 
 fun NavGraphBuilder.authGraph(navHostController: NavHostController){
@@ -24,9 +25,16 @@ fun NavGraphBuilder.authGraph(navHostController: NavHostController){
             }
             val viewModel: AuthViewModel = hiltViewModel<AuthViewModel>(entry)
             AuthScreen(
-                navHostController,
                 viewmodel = viewModel,
-                navigateToHomeScreen = {}
+                navigateToHomeScreen = {
+                    navHostController.navigate(Screens.HomeScreen.route)
+                },
+                navigateToSignUpScreen = {
+                    navHostController.navigate(AuthScreens.SignUpScreen1.route)
+                },
+                navigateToLoginScreen = {
+                    navHostController.navigate(AuthScreens.LoginScreen.route)
+                },
             )
         }
 

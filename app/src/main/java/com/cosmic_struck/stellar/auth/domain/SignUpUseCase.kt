@@ -1,5 +1,6 @@
 package com.cosmic_struck.stellar.auth.domain
 
+import android.util.Log
 import com.cosmic_struck.stellar.common.util.Resource
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.auth
@@ -20,6 +21,7 @@ class SignUpUseCase @Inject constructor(
                     this.email = email
                     this.password = password
                 }
+                Log.d("SignUpUseCase",user.toString())
                 val userId = user?.id
                 supabaseClient.postgrest.from("users").update({
                     set("user_name",username)
@@ -28,9 +30,11 @@ class SignUpUseCase @Inject constructor(
                         userId?.let { eq("id",it) }
                     }
                 }
+                Log.d("SignUpUseCase","User Created")
                 emit(Resource.Success(true))
             }catch (e: Exception){
                 emit(Resource.Error(e.localizedMessage ?: "Unknown Error"))
+                Log.d("SignUpUseCase",e.localizedMessage ?: "Unknown Error")
             }
         }
 }

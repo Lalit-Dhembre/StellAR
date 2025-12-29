@@ -9,25 +9,26 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.cosmic_struck.stellar.classroom.classroomHome.presentation.ClassHomeScreenViewModel
-import com.cosmic_struck.stellar.classroom.classroomHome.presentation.Options
 import com.cosmic_struck.stellar.classroom.presentation.components.ClassroomTopAppBar
 import com.cosmic_struck.stellar.classroom.presentation.components.MemberCard
 import com.cosmic_struck.stellar.classroom.presentation.components.ModelCardClassroom
+import com.cosmic_struck.stellar.classroom.presentation.viewmodel.ClassroomViewModel
+import com.cosmic_struck.stellar.classroom.presentation.viewmodel.Options
 import com.cosmic_struck.stellar.common.components.BackgroundScaffold
 import com.cosmic_struck.stellar.common.components.TabSwitcher
 
 @Composable
 fun ClassroomHomeScreen(
-    navigateToModelScreen : (String, String) -> Unit,
-    viewmodel: ClassHomeScreenViewModel = hiltViewModel(),
+    navigateToModelScreen : () -> Unit,
+    viewmodel: ClassroomViewModel = hiltViewModel(),
     modifier: Modifier = Modifier) {
 
-    val state = viewmodel.state.value
+    val state = viewmodel.homeState.collectAsState().value
 
     BackgroundScaffold(
         color = Color.White,
@@ -85,9 +86,9 @@ fun ClassroomHomeScreen(
                     ) {
                         items(state.classroomModelsList){it->
                             ModelCardClassroom(
-                                navigateToModelScreen = {it1,it2-> navigateToModelScreen(it1,it2)},
+                                navigateToModelScreen = { navigateToModelScreen()},
                                 modelURL = it.model_url,
-                                modelThumbnail = it.model_thumbnail,
+                                modelThumbnail = it.model_thumbnail ?: "",
                                 modelName = it.model_name,
                                 modelDescription = it.description ?: "No Description",
                             )

@@ -13,6 +13,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
+import com.cosmic_struck.stellar.common.components.BackgroundScaffold
+import com.cosmic_struck.stellar.common.components.BottomAppBar
 import com.cosmic_struck.stellar.common.util.HomeScreenCaptions2
 import com.cosmic_struck.stellar.stellar.home.presentation.components.BottomCaptions
 import com.cosmic_struck.stellar.stellar.home.presentation.components.ScanButton
@@ -20,30 +23,38 @@ import com.cosmic_struck.stellar.stellar.home.presentation.components.UpperCapti
 
 @Composable
 fun StellarHomeScreen(
+    navHostController: NavHostController,
     navigateToScanText: () -> Unit,
     viewModel: StellarHomeScreenViewModel = hiltViewModel<StellarHomeScreenViewModel>(),
     modifier: Modifier = Modifier) {
-    Box(
-        modifier = Modifier
-            .background(Color.Transparent)
-            .fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ){
-        Column(
+    BackgroundScaffold(
+        bottomBar = {
+            BottomAppBar(navHostController)
+        }
+    ) {
+        Box(
             modifier = Modifier
+                .background(Color.Transparent)
                 .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            contentAlignment = Alignment.Center
+        ){
+            Column(
+                modifier = Modifier
+                    .fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
 
-        ) {
+            ) {
 
-            UpperCaptions()
-            Spacer(modifier = Modifier.height(50.dp))
-            ScanButton(
-                navigateToScanText = navigateToScanText
-            )
-            Spacer(modifier = Modifier.height(50.dp))
-            BottomCaptions(HomeScreenCaptions2)
+                UpperCaptions()
+                Spacer(modifier = Modifier.height(50.dp))
+                ScanButton(
+                    navigateToScanText = navigateToScanText
+                )
+                Spacer(modifier = Modifier.height(50.dp))
+                BottomCaptions(HomeScreenCaptions2)
+            }
         }
     }
+
 }

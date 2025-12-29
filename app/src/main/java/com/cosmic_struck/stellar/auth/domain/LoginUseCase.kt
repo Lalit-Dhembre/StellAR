@@ -1,5 +1,6 @@
 package com.cosmic_struck.stellar.auth.domain
 
+import android.util.Log
 import com.cosmic_struck.stellar.common.util.Resource
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.auth
@@ -18,9 +19,12 @@ class LoginUseCase @Inject constructor(
                 this.email = email
                 this.password = password
             }
+            Log.d("LoginUseCase",user.toString())
             emit(Resource.Success(true))
         }catch (e: Exception){
             emit(Resource.Error(e.localizedMessage ?: "Unknown Error"))
+            Log.d("LoginUseCase",e.localizedMessage ?: "Unknown Error")
+
         }
     }
 }

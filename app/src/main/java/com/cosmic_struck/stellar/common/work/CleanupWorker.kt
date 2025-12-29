@@ -13,11 +13,6 @@ class CleanupWorker(context: Context, params: WorkerParameters) : Worker(context
 
         val folder = File(applicationContext.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS),"StellarModels")
 
-        if(folder == null){
-            Log.e("CleanupWorker", "No folder path provided")
-            return Result.failure()
-        }
-
         Log.d("CleanupWorker", "Folder path: ${folder.absolutePath}")
         Log.d("CleanupWorker", "Folder exists: ${folder.exists()}")
 
